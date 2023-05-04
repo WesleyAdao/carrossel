@@ -30,15 +30,19 @@ export class CarrosselComponent implements OnInit, OnDestroy {
     this.timeoutId = window.setTimeout(() => this.next(), this.interval);
   }
 
+  animation(): void {
+    const slider = document.querySelector('.slider') as HTMLDivElement;
+    slider.style.transform = `translateX(-${this.currentSlide * 100}%)`;
+    setTimeout(() => {
+      this.isSliding = false;
+    }, 500);
+  }
+  
   next(): void {
     if (!this.isSliding) {
       this.isSliding = true;
       this.currentSlide = (this.currentSlide + 1) % this.imageSrc.length;
-      const slider = document.querySelector('.slider') as HTMLDivElement;
-      slider.style.transform = `translateX(-${this.currentSlide * 100}%)`;
-      setTimeout(() => {
-        this.isSliding = false;
-      }, 500);
+      this.animation();
     }
     this.resetTimer();
   }
@@ -47,11 +51,7 @@ export class CarrosselComponent implements OnInit, OnDestroy {
     if (!this.isSliding) {
       this.isSliding = true;
       this.currentSlide = (this.currentSlide - 1 + this.imageSrc.length) % this.imageSrc.length;
-      const slider = document.querySelector('.slider') as HTMLDivElement;
-      slider.style.transform = `translateX(-${this.currentSlide * 100}%)`;
-      setTimeout(() => {
-        this.isSliding = false;
-      }, 500);
+      this.animation();
     }
   }
 
@@ -59,11 +59,7 @@ export class CarrosselComponent implements OnInit, OnDestroy {
     if (!this.isSliding) {
       this.isSliding = true;
       this.currentSlide = (this.currentSlide + 1) % this.imageSrc.length;
-      const slider = document.querySelector('.slider') as HTMLDivElement;
-      slider.style.transform = `translateX(-${this.currentSlide * 100}%)`;
-      setTimeout(() => {
-        this.isSliding = false;
-      }, 500);
+      this.animation();
     }
   }
 
