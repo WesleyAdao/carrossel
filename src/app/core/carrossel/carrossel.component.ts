@@ -8,58 +8,74 @@ import { CarrosselInterface } from './interfaces/carrossel.interface';
 })
 export class CarrosselComponent implements OnInit, OnDestroy {
   @Input() slides: CarrosselInterface[] = [];
+  @Input() interval!: number;
+  @Input() imageSrc!: any;
 
-  currentIndex: number = 0;
+  currentSlide: number = 0;
   timeoutId?: number;
-  paused: boolean = false;
+  isSliding: boolean = false;
 
   ngOnInit(): void {
     this.resetTimer();
   }
+
   ngOnDestroy() {
     window.clearTimeout(this.timeoutId);
   }
+  
   resetTimer() {
     if (this.timeoutId) {
       window.clearTimeout(this.timeoutId);
     }
-    this.timeoutId = window.setTimeout(() => this.goToNext(), 3000);
+    this.timeoutId = window.setTimeout(() => this.next(), this.interval);
+  }
+
+  next(): void {
+    if (!this.isSliding) {
+      this.isSliding = true;
+      this.currentSlide = (this.currentSlide + 1) % this.imageSrc.length;
+      const slider = document.querySelector('.slider') as HTMLDivElement;
+      slider.style.transform = `translateX(-${this.currentSlide * 100}%)`;
+      setTimeout(() => {
+        this.isSliding = false;
+      }, 500);
+    }
+    this.resetTimer();
   }
 
   goToPrevious(): void {
-    const isFirstSlide = this.currentIndex === 0;
-    const newIndex = isFirstSlide
-      ? this.slides.length - 1
-      : this.currentIndex - 1;
-
-    this.resetTimer();
-    this.currentIndex = newIndex;
+    if (!this.isSliding) {
+      this.isSliding = true;
+      this.currentSlide = (this.currentSlide - 1 + this.imageSrc.length) % this.imageSrc.length;
+      const slider = document.querySelector('.slider') as HTMLDivElement;
+      slider.style.transform = `translateX(-${this.currentSlide * 100}%)`;
+      setTimeout(() => {
+        this.isSliding = false;
+      }, 500);
+    }
   }
 
   goToNext(): void {
-    const isLastSlide = this.currentIndex === this.slides.length - 1;
-    const newIndex = isLastSlide ? 0 : this.currentIndex + 1;
-
-    this.resetTimer();
-    this.currentIndex = newIndex;
+    if (!this.isSliding) {
+      this.isSliding = true;
+      this.currentSlide = (this.currentSlide + 1) % this.imageSrc.length;
+      const slider = document.querySelector('.slider') as HTMLDivElement;
+      slider.style.transform = `translateX(-${this.currentSlide * 100}%)`;
+      setTimeout(() => {
+        this.isSliding = false;
+      }, 500);
+    }
   }
 
   goToSlide(slideIndex: number): void {
-    this.resetTimer();
-    this.currentIndex = slideIndex;
-  }
-
-  getCurrentSlideUrl() {
-    return `url('${this.slides[this.currentIndex].url}')`;
+    this.currentSlide = slideIndex;
   }
 
   onSlideHover(): void {
-    this.paused = true;
     window.clearTimeout(this.timeoutId);
   }
 
   onSlideLeave(): void {
-    this.paused = false;
     this.resetTimer();
   }
 }

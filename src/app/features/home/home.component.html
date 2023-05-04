@@ -1,8 +1,11 @@
 <div class="carrossel" *ngIf="images.length === 1; else carrossel">
-  <img [src]="images[0].url" class="imagens">
+  <img [src]="img[0]" class="imagens">
 </div>
 <ng-template #carrossel>
   <div class="carrossel">
-    <app-carrossel [slides]="images"></app-carrossel>
+    <app-carrossel 
+      [interval]="duration"
+      [imageSrc]="img"
+    ></app-carrossel>
   </div>
 </ng-template>

@@ -1,8 +1,14 @@
 <div 
-  class="slider"
+  class="container"
   (mouseenter)="onSlideHover()"
   (mouseleave)="onSlideLeave()"
 >
+
+  <div class="slider" [class.sliding]="isSliding">
+    <div *ngFor="let image of imageSrc">
+      <img [src]="image" class="imagem">
+    </div>
+  </div>
 
   <div (click)="goToPrevious()" class="left arrow">
     <div class="arrows">❰</div>
@@ -11,17 +17,12 @@
     <div class="arrows">❱</div>
   </div>
 
-  <div
-    class="slide"
-    [ngStyle]="{ 'background-image': getCurrentSlideUrl() }"
-  ></div>
-
   <div class="dotsContainer">
     <div
-      *ngFor="let slide of slides; let slideIndex = index"
       class="dot"
       (click)="goToSlide(slideIndex)"
-      [ngClass]="{'active': currentIndex === slideIndex}"
+      *ngFor="let slide of imageSrc; let slideIndex = index"
+      [ngClass]="{'active': currentSlide === slideIndex}"
     >_</div>
   </div>
 

@@ -13,4 +13,12 @@ export class HomeComponent {
     { url: 'https://mdbcdn.b-cdn.net/img/new/slides/043.webp' }
   ];
 
+  img = [
+    'https://mdbcdn.b-cdn.net/img/new/slides/041.webp',
+    'https://mdbcdn.b-cdn.net/img/new/slides/042.webp',
+    'https://mdbcdn.b-cdn.net/img/new/slides/043.webp'
+  ];
+
+  duration: number = 3000;
+
 }
