@@ -39,11 +39,7 @@ export class CarrosselComponent implements OnInit, OnDestroy {
   }
   
   next(): void {
-    if (!this.isSliding) {
-      this.isSliding = true;
-      this.currentSlide = (this.currentSlide + 1) % this.imageSrc.length;
-      this.animation();
-    }
+    this.goToNext();
     this.resetTimer();
   }
 
@@ -64,7 +60,11 @@ export class CarrosselComponent implements OnInit, OnDestroy {
   }
 
   goToSlide(slideIndex: number): void {
-    this.currentSlide = slideIndex;
+    if (!this.isSliding && slideIndex !== this.currentSlide) {
+      this.isSliding = true;
+      this.currentSlide = slideIndex;
+      this.animation();
+    }
   }
 
   onSlideHover(): void {
